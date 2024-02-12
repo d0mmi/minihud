@@ -1,5 +1,6 @@
 package fi.dy.masa.minihud.event;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -675,13 +676,17 @@ public class RenderHandler implements IRenderer
 
                 if (InfoToggle.HORSE_JUMP.getBooleanValue())
                 {
-                    double jump = horse.getJumpStrength();
-                    double calculatedJumpHeight =
-                            -0.1817584952d * jump * jump * jump +
-                            3.689713992d * jump * jump +
-                            2.128599134d * jump +
-                            -0.343930367;
-                    this.addLine(String.format("Horse Jump: %.3f m", calculatedJumpHeight));
+                    try {
+                        Field jumpStrength = horse.getClass().getField("jumpStrength");
+                        jumpStrength.setAccessible(true);
+                        double jump = jumpStrength.getFloat(horse);
+                        double calculatedJumpHeight =
+                                -0.1817584952d * jump * jump * jump +
+                                        3.689713992d * jump * jump +
+                                        2.128599134d * jump +
+                                        -0.343930367;
+                        this.addLine(String.format("Horse Jump: %.3f m", calculatedJumpHeight));
+                    } catch (NoSuchFieldException | IllegalAccessException e) {}
                 }
 
                 this.addedTypes.add(InfoToggle.HORSE_SPEED);
