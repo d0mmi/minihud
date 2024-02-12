@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Matrix4fStack;
 
 public interface IOverlayRenderer
 {
@@ -42,7 +43,7 @@ public interface IOverlayRenderer
     /**
      * Draw the buffer contents to screen
      */
-    void draw(MatrixStack matrixStack, Matrix4f projMatrix);
+    void draw(Matrix4f posMatrix , Matrix4f projMatrix);
 
     /**
      * Allocates the OpenGL resources according to the current Video settings

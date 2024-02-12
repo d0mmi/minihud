@@ -6,6 +6,7 @@ import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.util.math.MatrixStack;
+import org.joml.Matrix4fStack;
 
 public abstract class RenderObjectBase
 {
@@ -30,7 +31,7 @@ public abstract class RenderObjectBase
 
     public abstract void uploadData(BufferBuilder buffer);
 
-    public abstract void draw(MatrixStack matrixStack, Matrix4f projMatrix);
+    public abstract void draw(Matrix4f positionMatrix, Matrix4f projMatrix);
 
     public abstract void deleteGlResources();
 }

@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ConduitBlockEntity;
@@ -51,16 +52,16 @@ public class OverlayRendererConduitRange extends BaseBlockRangeOverlay<ConduitBl
     }
 
     @Override
-    public void draw(MatrixStack matrixStack, Matrix4f projMatrix)
+    public void draw(Matrix4f posMatrix, Matrix4f projMatrix)
     {
         this.preRender();
 
-        this.renderObjects.get(0).draw(matrixStack, projMatrix);
+        this.renderObjects.get(0).draw(posMatrix, projMatrix);
 
         // Render the lines as quads with glPolygonMode(GL_LINE)
         RenderSystem.polygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
         RenderSystem.disableBlend();
-        this.renderObjects.get(0).draw(matrixStack, projMatrix);
+        this.renderObjects.get(0).draw(posMatrix, projMatrix);
         RenderSystem.polygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
         RenderSystem.enableBlend();
 

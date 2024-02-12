@@ -12,6 +12,7 @@ import net.minecraft.util.math.Vec3d;
 import fi.dy.masa.malilib.util.JsonUtils;
 import fi.dy.masa.malilib.util.PositionUtils;
 import fi.dy.masa.minihud.config.RendererToggle;
+import org.joml.Matrix4fStack;
 
 public class RenderContainer
 {
@@ -58,12 +59,12 @@ public class RenderContainer
         }
     }
 
-    public void render(Entity entity, MatrixStack matrixStack, Matrix4f projMatrix, MinecraftClient mc)
+    public void render(Entity entity, Matrix4f positionMatrix, Matrix4f projMatrix, MinecraftClient mc)
     {
         Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
 
         this.update(cameraPos, entity, mc);
-        this.draw(cameraPos, matrixStack, projMatrix, mc);
+        this.draw(cameraPos, projMatrix, mc);
     }
 
     protected void update(Vec3d cameraPos, Entity entity, MinecraftClient mc)
@@ -94,7 +95,7 @@ public class RenderContainer
         mc.getProfiler().pop();
     }
 
-    protected void draw(Vec3d cameraPos, MatrixStack matrixStack, Matrix4f projMatrix, MinecraftClient mc)
+    protected void draw(Vec3d cameraPos, Matrix4f projMatrix, MinecraftClient mc)
     {
         if (this.resourcesAllocated && this.countActive > 0)
         {
@@ -116,12 +117,13 @@ public class RenderContainer
                 if (renderer.shouldRender(mc))
                 {
                     Vec3d updatePos = renderer.getUpdatePosition();
-                    matrixStack.push();
-                    matrixStack.translate(updatePos.x - cameraPos.x, updatePos.y - cameraPos.y, updatePos.z - cameraPos.z);
+                    Matrix4fStack matrix4fStack = RenderSystem.getModelViewStack();
+                    matrix4fStack.pushMatrix();
+                    matrix4fStack.translate((float) (updatePos.x - cameraPos.x), (float) (updatePos.y - cameraPos.y), (float) (updatePos.z - cameraPos.z));
 
-                    renderer.draw(matrixStack, projMatrix);
+                    renderer.draw(matrix4fStack, projMatrix);
 
-                    matrixStack.pop();
+                    matrix4fStack.popMatrix();
                 }
 
                 mc.getProfiler().pop();

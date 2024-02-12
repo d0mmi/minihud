@@ -3,6 +3,7 @@ package fi.dy.masa.minihud.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -18,11 +19,8 @@ public abstract class MixinChatScreen extends Screen
     }
 
     @Inject(method = "sendMessage", at = @At("HEAD"), cancellable = true)
-    private void onSendChatMessage(String msg, boolean addToHistory, CallbackInfoReturnable<Boolean> cir)
+    private void onSendChatMessage(String msg, boolean addToHistory, CallbackInfo cir)
     {
-        if (DataStorage.getInstance().onSendChatMessage(msg))
-        {
-            cir.setReturnValue(true);
-        }
+        DataStorage.getInstance().onSendChatMessage(msg);
     }
 }
