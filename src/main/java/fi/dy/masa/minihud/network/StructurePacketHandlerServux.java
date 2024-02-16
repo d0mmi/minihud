@@ -26,7 +26,7 @@ public class StructurePacketHandlerServux implements IPluginChannelHandler
     {
         this.registered = false;
     }
-
+/*
     @Override
     public Identifier getChannel()
     {
@@ -66,5 +66,5 @@ public class StructurePacketHandlerServux implements IPluginChannelHandler
                 MiniHUD.printDebug("StructurePacketHandlerServux#onPacketReceived(): register; timeout: {}", this.timeout);
             }
         }
-    }
+    }*/
 }

@@ -25,7 +25,7 @@ public class StructurePacketHandlerCarpet implements IPluginChannelHandler
     {
         this.registered = false;
     }
-
+/*
     @Override
     public Identifier getChannel()
     {
@@ -61,5 +61,5 @@ public class StructurePacketHandlerCarpet implements IPluginChannelHandler
                 }
             }
         }
-    }
+    }*/
 }
